@@ -1,4 +1,7 @@
 import './App.css';
+import TaskInput from './components/TaskInput';
+import TaskList from './components/TaskList';
+
 
 const App = () => {
   return (
@@ -8,21 +11,8 @@ const App = () => {
           <h1>TODO</h1>
           <img className="rotate" src="./images/icon-sun.svg" alt="sun" />
         </div>
-        {/* Add to Task Input component */}
-        <div className="task-input">
-          <div className="check">
-            <div className="checkmark">
-              {/* insert image here */}
-            </div>
-          </div>
-          <div className="new-todo-input">
-            <form>
-              <input type="text" id="todo-input" placeholder="What's your task?" />
-            </form>
-          </div>
-        </div>
-        {/* Make a task list component */}
-        <div className="task-list"></div>
+        <TaskInput />
+        <TaskList />
       </div>
     </div>
   );
