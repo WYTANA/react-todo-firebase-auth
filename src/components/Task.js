@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Task = () => {
+const Task = ({ text }) => {
     return (
         <div className="task-item">
             <div className="check">
@@ -9,7 +9,7 @@ const Task = () => {
                 </div>
             </div>
             <div className="task-text">
-                <p>Add checkmark css</p>
+                <p>{text}</p>
             </div>
         </div>
     )

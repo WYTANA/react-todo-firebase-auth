@@ -68,7 +68,8 @@
 }
 
 /* conditional render */
-.checkmark.checked img, .checkmark:hover img{
+.checkmark.checked img, 
+.checkmark:hover img {
   visibility: visible;
 }
 
@@ -170,7 +171,8 @@
   padding: 0 4px;
 }
 
-.items-status span:hover, .items-clear:hover {
+.items-status span:hover, 
+.items-clear:hover {
   color: hsl(220, 98%, 61%);
   cursor: pointer;
 }
