@@ -2,38 +2,50 @@ import './App.css'
 import TaskInput from './components/TaskInput'
 import TaskList from './components/TaskList'
 import { useState, useEffect } from 'react'
+import { onSnapshot, collection } from 'firebase/firestore'
+import db from './utils/firebase'
 
 
-const data = [
-  { id: 1, text: "Finish contacts hw", status: false },
-  { id: 2, text: "Study react hooks", status: false },
-  { id: 3, text: "Finish CP challenge", status: false },
-  { id: 4, text: "Run 1 mile", status: false },
-  { id: 5, text: "Finish errands", status: false },
-  { id: 6, text: "Complete Todo App", status: false },
-];
+// const data = [
+//   { id: 1, text: "Finish contacts hw", status: false },
+//   { id: 2, text: "Study react hooks", status: false },
+//   { id: 3, text: "Finish CP challenge", status: false },
+//   { id: 4, text: "Run 1 mile", status: false },
+//   { id: 5, text: "Finish errands", status: false },
+//   { id: 6, text: "Complete Todo App", status: false },
+// ];
 
 const App = () => {
 
-  const [tasks, setTasks] = useState(data)
+  const [tasks, setTasks] = useState([])
   const [filteredTasks, setFilteredTasks] = useState(tasks)
   const [filterStatus, setFilterStatus] = useState("all")
 
   // Side effects for filter status
+  // useEffect(() => {
+  //   const handleFilter = () => {
+  //     if (filterStatus === "active") {
+  //       setFilteredTasks(tasks.filter((task) => task.status === false))
+  //     }
+  //     else if (filterStatus === "completed") {
+  //       setFilteredTasks(tasks.filter((task) => task.status === true))
+  //     }
+  //     else {
+  //       setFilteredTasks(tasks)
+  //     }
+  //   }
+  //   handleFilter()
+  // }, [tasks, filterStatus])
+
+  // Side effects for filter status and api call
   useEffect(() => {
-    const handleFilter = () => {
-      if (filterStatus === "active") {
-        setFilteredTasks(tasks.filter((task) => task.status === false))
-      }
-      else if (filterStatus === "completed") {
-        setFilteredTasks(tasks.filter((task) => task.status === true))
-      }
-      else {
-        setFilteredTasks(tasks)
-      }
-    }
-    handleFilter()
-  }, [tasks, filterStatus])
+    const collectionRef = collection(db, "tasks")
+    onSnapshot(collectionRef, (snapshot) => {
+      let todos = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+      setFilteredTasks(todos)
+    })
+
+  }, [filterStatus])
 
   return (
     <div className="App">
@@ -56,7 +68,6 @@ const App = () => {
         />
       </div>
     </div>
-  );
+  )
 }
-
 export default App;

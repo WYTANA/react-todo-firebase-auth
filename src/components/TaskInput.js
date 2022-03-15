@@ -12,16 +12,19 @@ const TaskInput = ({ tasks, setTasks }) => {
     // Store on Firestore DB
     const handleForm = async (e) => {
         e.preventDefault()
-        // access container
-        const collectionRef = collection(db, "tasks")
-        // add doc
-        const payload = {
-            text: input.trim(),
-            status: false,
-        }
+        if (input) {
+            // access collection 
+            const collectionRef = collection(db, "tasks")
+            // add doc
+            const payload = {
+                text: input.trim(),
+                status: false,
+            }
 
-        await addDoc(collectionRef, payload)
-        setInput("")
+            await addDoc(collectionRef, payload)
+            // empty input field
+            setInput("")
+        }
     }
 
     return (
