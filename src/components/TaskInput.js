@@ -1,5 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
+import { addDoc, collection } from 'firebase/firestore'
+import db from '../utils/firebase'
 
 const TaskInput = ({ tasks, setTasks }) => {
 
@@ -7,22 +9,18 @@ const TaskInput = ({ tasks, setTasks }) => {
 
     const handleChange = e => setInput(e.target.value)
 
-
-    const handleForm = (e) => {
+    // Store on Firestore DB
+    const handleForm = async (e) => {
         e.preventDefault()
-
-        const generateId = (array) => {
-            const taskIds = array.map(item => item.id)
-            return Math.max(...taskIds) + 1
-        }
-
-        const newTask = {
-            id: generateId(tasks),
-            text: input,
+        // access container
+        const collectionRef = collection(db, "tasks")
+        // add doc
+        const payload = {
+            text: input.trim(),
             status: false,
         }
 
-        setTasks([newTask, ...tasks])
+        await addDoc(collectionRef, payload)
         setInput("")
     }
 
@@ -36,9 +34,9 @@ const TaskInput = ({ tasks, setTasks }) => {
             <div className="new-todo-input">
                 <form onSubmit={handleForm}>
                     <input
-                        onChange={handleChange}
                         value={input}
                         type="text"
+                        onChange={handleChange}
                         id="todo-input"
                         placeholder="What are you doing?"
                     />
