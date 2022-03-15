@@ -16,18 +16,24 @@ const data = [
 const App = () => {
 
   const [tasks, setTasks] = useState(data)
-
+  const [filteredTasks, setFilteredTasks] = useState(tasks)
   const [filterStatus, setFilterStatus] = useState("all")
 
+  // Side effects for filter status
   useEffect(() => {
-    if (filterStatus === "active") {
-      console.log("Active")
-    } else if (filterStatus === "completed") {
-      console.log("Completed")
-    } else {
-      console.log("All")
+    const handleFilter = () => {
+      if (filterStatus === "active") {
+        setFilteredTasks(tasks.filter((task) => task.status === false))
+      }
+      else if (filterStatus === "completed") {
+        setFilteredTasks(tasks.filter((task) => task.status === true))
+      }
+      else {
+        setFilteredTasks(tasks)
+      }
     }
-  }, [filterStatus])
+    handleFilter()
+  }, [tasks, filterStatus])
 
   return (
     <div className="App">
@@ -41,10 +47,12 @@ const App = () => {
           setTasks={setTasks}
         />
         <TaskList
+          filteredTasks={filteredTasks}
           filterStatus={filterStatus}
           tasks={tasks}
           setTasks={setTasks}
           setFilterStatus={setFilterStatus}
+          setFilteredTasks={setFilteredTasks}
         />
       </div>
     </div>

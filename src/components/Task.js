@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import Check from "../images/icon-check.svg"
 
-const Task = ({ text, tasks, task, setTasks }) => {
+const Task = ({ text, tasks, task, setTasks, setFilteredTasks }) => {
 
     const [mutableTask, setMutableTask] = useState(task)
 
@@ -13,10 +13,10 @@ const Task = ({ text, tasks, task, setTasks }) => {
     // Update css and switch task status
     const markCompleted = () => {
         console.log(tasks)
-        // Update front end status
+        // Update/change front end status
         setMutableTask({ ...mutableTask, status: !mutableTask.status })
 
-        // Update back end status
+        // Update/change back end status
         const updatedTasks = tasks.map((item) => {
             return task.id === item.id ? { ...item, status: !item.status } : item
         })

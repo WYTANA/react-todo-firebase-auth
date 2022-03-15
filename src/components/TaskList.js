@@ -3,14 +3,14 @@ import FilterControl from './FilterControl'
 import Task from './Task'
 
 // Holds tasks and footer items
-const TaskList = ({ filterStatus, tasks, setTasks, setFilterStatus }) => {
+const TaskList = ({ setFilteredTasks, filteredTasks, filterStatus, tasks, setTasks, setFilterStatus }) => {
 
     return (
         <div className="task-list-wrapper">
             <div className="task-list">
                 {/* Map through an array of todos */}
                 {
-                    tasks.map((task) => {
+                    filteredTasks.map((task) => {
                         return <Task
                             key={task.id}
                             text={task.text}
@@ -18,6 +18,7 @@ const TaskList = ({ filterStatus, tasks, setTasks, setFilterStatus }) => {
                             task={task}
                             setTasks={setTasks}
                             tasks={tasks}
+                            setFilteredTasks={setFilteredTasks}
                         />
                     })
                 }

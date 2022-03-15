@@ -3,8 +3,6 @@ import React from 'react'
 // Holds/controls All, Active, and Completed
 const FilterControl = ({ filterStatus, setFilterStatus }) => {
 
-
-
     const handleStatus = (status) => {
         console.log("Status clicked")
         setFilterStatus(status)
