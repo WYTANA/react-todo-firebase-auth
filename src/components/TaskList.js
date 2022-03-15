@@ -3,7 +3,7 @@ import FilterControl from './FilterControl'
 import Task from './Task'
 
 // Holds tasks and footer items
-const TaskList = ({ tasks, setTasks }) => {
+const TaskList = ({ filterStatus, tasks, setTasks, setFilterStatus }) => {
 
     return (
         <div className="task-list-wrapper">
@@ -16,6 +16,8 @@ const TaskList = ({ tasks, setTasks }) => {
                             text={task.text}
                             status={task.status}
                             task={task}
+                            setTasks={setTasks}
+                            tasks={tasks}
                         />
                     })
                 }
@@ -26,9 +28,11 @@ const TaskList = ({ tasks, setTasks }) => {
                 <div className="items-left">
                     {tasks.length} items left
                 </div>
-
-                <FilterControl />
-
+                {/* Bottom-middle of app */}
+                <FilterControl
+                    filterStatus={filterStatus}
+                    setFilterStatus={setFilterStatus}
+                />
                 {/* Bottom-right of app */}
                 <div className="items-clear">
                     <span>Clear Completed</span>

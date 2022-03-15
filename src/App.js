@@ -1,7 +1,7 @@
 import './App.css'
 import TaskInput from './components/TaskInput'
 import TaskList from './components/TaskList'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 
 const data = [
@@ -17,6 +17,18 @@ const App = () => {
 
   const [tasks, setTasks] = useState(data)
 
+  const [filterStatus, setFilterStatus] = useState("all")
+
+  useEffect(() => {
+    if (filterStatus === "active") {
+      console.log("Active")
+    } else if (filterStatus === "completed") {
+      console.log("Completed")
+    } else {
+      console.log("All")
+    }
+  }, [filterStatus])
+
   return (
     <div className="App">
       <div className="container">
@@ -24,8 +36,16 @@ const App = () => {
           <h1>TODO</h1>
           <img className="rotate" src="./images/icon-sun.svg" alt="sun" />
         </div>
-        <TaskInput tasks={tasks} setTasks={setTasks} />
-        <TaskList tasks={tasks} setTasks={setTasks} />
+        <TaskInput
+          tasks={tasks}
+          setTasks={setTasks}
+        />
+        <TaskList
+          filterStatus={filterStatus}
+          tasks={tasks}
+          setTasks={setTasks}
+          setFilterStatus={setFilterStatus}
+        />
       </div>
     </div>
   );

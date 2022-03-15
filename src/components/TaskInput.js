@@ -24,7 +24,6 @@ const TaskInput = ({ tasks, setTasks }) => {
 
         setTasks([newTask, ...tasks])
         setInput("")
-        console.log(tasks)
     }
 
     return (

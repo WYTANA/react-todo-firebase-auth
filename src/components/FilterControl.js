@@ -1,12 +1,27 @@
 import React from 'react'
 
 // Holds/controls All, Active, and Completed
-const FilterControl = () => {
+const FilterControl = ({ filterStatus, setFilterStatus }) => {
+
+
+
+    const handleStatus = (status) => {
+        console.log("Status clicked")
+        setFilterStatus(status)
+    }
+
     return (
         <div className="items-status">
-            <span>All</span>
-            <span>Active</span>
-            <span>Completed</span>
+            <span
+                onClick={() => handleStatus("all")}>
+                All
+            </span>
+            <span onClick={() => handleStatus("active")}>
+                Active
+            </span>
+            <span onClick={() => handleStatus("completed")}>
+                Completed
+            </span>
         </div>
     )
 }
