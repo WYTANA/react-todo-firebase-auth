@@ -1,9 +1,22 @@
 import React from 'react'
 import FilterControl from './FilterControl'
 import Task from './Task'
+import { deleteDoc, doc } from 'firebase/firestore'
+import db from '../utils/firebase'
 
-// Holds tasks and footer items
+// This component maps through tasks, holds the delete doc function, and displays filter and "items left" status
+
 const TaskList = ({ setFilteredTasks, filteredTasks, filterStatus, tasks, setTasks, setFilterStatus }) => {
+
+    // Delete doc (filtered tasks) with Firebase
+    const clearCompleted = () => {
+        filteredTasks.forEach((item) => {
+            const docRef = doc(db, "tasks", item.id)
+            if (item.status === true) {
+                deleteDoc(docRef)
+            }
+        })
+    }
 
     return (
         <div className="task-list-wrapper">
@@ -18,6 +31,7 @@ const TaskList = ({ setFilteredTasks, filteredTasks, filterStatus, tasks, setTas
                             task={task}
                             setTasks={setTasks}
                             tasks={tasks}
+                            filteredTasks={filteredTasks}
                             setFilteredTasks={setFilteredTasks}
                         />
                     })
@@ -27,7 +41,7 @@ const TaskList = ({ setFilteredTasks, filteredTasks, filterStatus, tasks, setTas
             <div className="task-items-info">
                 {/* Bottom-left of app */}
                 <div className="items-left">
-                    {tasks.length} items left
+                    {filteredTasks.length} items left
                 </div>
                 {/* Bottom-middle of app */}
                 <FilterControl
@@ -36,7 +50,7 @@ const TaskList = ({ setFilteredTasks, filteredTasks, filterStatus, tasks, setTas
                 />
                 {/* Bottom-right of app */}
                 <div className="items-clear">
-                    <span>Clear Completed</span>
+                    <span onClick={clearCompleted}>Clear Completed</span>
                 </div>
             </div>
         </div>

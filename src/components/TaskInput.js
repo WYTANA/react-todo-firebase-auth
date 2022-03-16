@@ -20,7 +20,6 @@ const TaskInput = ({ tasks, setTasks }) => {
                 text: input.trim(),
                 status: false,
             }
-
             await addDoc(collectionRef, payload)
             // empty input field
             setInput("")
