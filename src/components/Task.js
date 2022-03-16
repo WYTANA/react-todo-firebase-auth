@@ -22,7 +22,8 @@ const Task = ({ text, tasks, task, setTasks, filteredTasks, setFilteredTasks }) 
 
         // Update/change back end status on Firestore
         const docRef = doc(db, "tasks", task.id)
-        const payload = { id: task.id, text: task.text, status: !text.status }
+        const payload = { id: task.id, text: task.text, status: !task.status }
+        console.log(payload)
         setDoc(docRef, payload)
     }
 
