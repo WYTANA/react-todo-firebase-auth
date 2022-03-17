@@ -10,12 +10,17 @@ const SignIn = () => {
 
     const login = async () => {
         try {
-            await signInWithEmailAndPassword(
-                auth,
-                emailRef.current.value,
-                passwordRef.current.value
-            )
-            window.location = './dashboard'
+            await signInWithEmailAndPassword
+                (
+                    auth,
+                    emailRef.current.value,
+                    passwordRef.current.value
+                )
+                .then((user) => {
+                    if (user) {
+                        window.location = './dashboard'
+                    }
+                })
         } catch (error) {
             alert(error.message)
         }

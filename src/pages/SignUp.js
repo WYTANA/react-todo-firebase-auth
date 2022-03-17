@@ -2,21 +2,41 @@ import React, { useRef } from 'react'
 import Login from '../components/Login'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../utils/firebase'
+import { setDoc, doc } from 'firebase/firestore'
+import db from '../utils/firebase'
 
 const SignUp = () => {
     // Grab a reference to value of email and password
     const emailRef = useRef()
     const passwordRef = useRef()
 
-    // Register a user with Firebase
+    // Register and create a user with Firebase
     const register = async () => {
         try {
-            await createUserWithEmailAndPassword(
-                auth,
-                emailRef.current.value,
-                passwordRef.current.value
-            )
-            window.location = '/dashboard'
+            // Create user with Firebase auth
+            await createUserWithEmailAndPassword
+                (
+                    auth,
+                    emailRef.current.value,
+                    passwordRef.current.value
+                )
+                .then(async (cred) => {
+                    // Create user doc in the Firebase users' collection
+                    const docRef = doc(db, "users", `${cred.user.uid}`)
+                    const payload = {
+                        tasks: [
+                            {
+                                text: "My first Todo",
+                                status: false,
+                            },
+                        ]
+                    }
+                    await setDoc(docRef, payload)
+                    // If doc set, send user to dashboard
+                    if (cred) {
+                        window.location = '/dashboard'
+                    }
+                })
         } catch (error) {
             alert(error.message)
         }
