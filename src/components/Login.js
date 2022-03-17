@@ -3,6 +3,8 @@ import "../styles/Login.css"
 
 const Login = ({ title, button, href, link, headerStatement, emailInput, passwordInput, btnFunction }) => {
 
+    // **** March 13th
+
     return (
         <div className="login">
             <div className="login-container">
