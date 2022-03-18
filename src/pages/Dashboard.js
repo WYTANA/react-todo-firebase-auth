@@ -4,6 +4,7 @@ import TaskList from '../components/TaskList'
 import { useState, useEffect } from 'react'
 import { onSnapshot, collection, doc, setDoc } from 'firebase/firestore'
 import db, { auth } from '../utils/firebase'
+import { signOut } from 'firebase/auth'
 
 const Dashboard = () => {
 
@@ -11,6 +12,11 @@ const Dashboard = () => {
     const [filteredTasks, setFilteredTasks] = useState(tasks)
     const [filterStatus, setFilterStatus] = useState("all")
     const [user, setUser] = useState({})
+
+    const logout = async () => {
+        await signOut(auth)
+        window.location = "/"
+    }
 
     // // Side effects for filter status and api call
     // useEffect(() => {
@@ -46,6 +52,7 @@ const Dashboard = () => {
                 setUser(currentUser.uid)
             } else {
                 console.log("ERROR! Please sign in.")
+                window.location = "/signup"
             }
         })
         // Grab the current user's tasks
@@ -82,8 +89,10 @@ const Dashboard = () => {
                     setTasks={setTasks}
                     setFilterStatus={setFilterStatus}
                     setFilteredTasks={setFilteredTasks}
+                    userId={user}
                 />
             </div>
+            <h3 onClick={logout}>Logout</h3>
         </div>
     )
 }

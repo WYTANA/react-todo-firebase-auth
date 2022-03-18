@@ -6,7 +6,7 @@ import db from '../utils/firebase'
 
 // This component maps through tasks, holds the delete doc function, and displays filter and "items left" status
 
-const TaskList = ({ setFilteredTasks, filteredTasks, filterStatus, tasks, setTasks, setFilterStatus }) => {
+const TaskList = ({ setFilteredTasks, filteredTasks, filterStatus, tasks, setTasks, setFilterStatus, userId }) => {
 
     // Delete doc (filtered tasks) with Firebase
     const clearCompleted = () => {
@@ -33,6 +33,7 @@ const TaskList = ({ setFilteredTasks, filteredTasks, filterStatus, tasks, setTas
                             tasks={tasks}
                             filteredTasks={filteredTasks}
                             setFilteredTasks={setFilteredTasks}
+                            userId={userId}
                         />
                     })
                 }

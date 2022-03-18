@@ -6,7 +6,7 @@ import db from '../utils/firebase'
 
 // This component updates front and back ends and uses conditional rendering
 
-const Task = ({ text, tasks, task, setTasks, filteredTasks, setFilteredTasks }) => {
+const Task = ({ text, tasks, task, setTasks, filteredTasks, setFilteredTasks, userId }) => {
 
     const [mutableTask, setMutableTask] = useState(task)
     // Conditional rendering 
@@ -21,9 +21,16 @@ const Task = ({ text, tasks, task, setTasks, filteredTasks, setFilteredTasks }) 
         setMutableTask({ ...mutableTask, status: !mutableTask.status })
 
         // Update/change back end status on Firestore
-        const docRef = doc(db, "tasks", task.id)
-        const payload = { id: task.id, text: task.text, status: !task.status }
-        console.log(payload)
+        // const docRef = doc(db, "tasks", task.id)
+        // const payload = { id: task.id, text: task.text, status: !task.status }
+
+        const docRef = doc(db, "users", userId)
+        const arrayRef = filteredTasks
+        const index = filteredTasks.indexOf(task)
+        arrayRef[index] = { ...task, status: !task.status }
+
+        const payload = { tasks: arrayRef }
+
         setDoc(docRef, payload)
     }
 
