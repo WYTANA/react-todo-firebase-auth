@@ -1,27 +1,41 @@
 import React from 'react'
 import { useState } from 'react'
-import { addDoc, collection } from 'firebase/firestore'
+import { addDoc, collection, doc, setDoc } from 'firebase/firestore'
 import db from '../utils/firebase'
 
-const TaskInput = ({ tasks, setTasks }) => {
+const TaskInput = ({ tasks, setTasks, userId, filteredTasks }) => {
 
     const [input, setInput] = useState("")
 
     const handleChange = e => setInput(e.target.value)
 
+    const generateId = (array) => {
+        const taskIds = array.map(item => item.id)
+        if (taskIds.length === 0) {
+            return 0
+        } else {
+            return Math.max(...taskIds) + 1
+        }
+    }
+
     // Store on Firestore DB
     const handleForm = async (e) => {
         e.preventDefault()
         if (input) {
-            // access collection 
-            const collectionRef = collection(db, "tasks")
-            // add doc
-            const payload = {
+
+            // Create task object
+            const newTask = {
                 text: input.trim(),
                 status: false,
+                id: generateId(filteredTasks)
             }
-            await addDoc(collectionRef, payload)
-            // empty input field
+            // Get current users' tasks THEN add the new task to that array
+            let tasksRef = filteredTasks
+            tasksRef.push(newTask)
+
+            const docRef = doc(db, "users", userId)
+            const payload = { tasks: tasksRef }
+            setDoc(docRef, payload)
             setInput("")
         }
     }

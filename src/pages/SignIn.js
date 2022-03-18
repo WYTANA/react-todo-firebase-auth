@@ -18,7 +18,7 @@ const SignIn = () => {
                 )
                 .then((user) => {
                     if (user) {
-                        window.location = './dashboard'
+                        window.location = '/dashboard'
                     }
                 })
         } catch (error) {

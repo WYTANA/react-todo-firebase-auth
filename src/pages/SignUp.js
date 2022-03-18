@@ -14,6 +14,7 @@ const SignUp = () => {
     const register = async () => {
         try {
             // Create user with Firebase auth
+            // UID will be a reference for our users collection
             await createUserWithEmailAndPassword
                 (
                     auth,
@@ -21,16 +22,14 @@ const SignUp = () => {
                     passwordRef.current.value
                 )
                 .then(async (cred) => {
-                    // Create user doc in the Firebase users' collection
+                    // Create users collection and add UID as doc
                     const docRef = doc(db, "users", `${cred.user.uid}`)
-                    const payload = {
-                        tasks: [
-                            {
-                                text: "My first Todo",
-                                status: false,
-                            },
-                        ]
+                    // Structure the data
+                    const payload =
+                    {
+                        tasks: []
                     }
+                    // Use setDoc because we're updating the user doc with user auth
                     await setDoc(docRef, payload)
                     // If doc set, send user to dashboard
                     if (cred) {
